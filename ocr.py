@@ -207,12 +207,12 @@ def read_hand_type(crop: np.ndarray) -> str:
 
 
 def read_blinds(crop: np.ndarray) -> tuple[float, float]:
-    """Extract small blind and big blind from '0.05/0.10'."""
+    """Extract small blind and big blind from '0.01/0.02'."""
     text = _ocr_text(crop)
     matches = re.findall(r'[\d]+\.[\d]+', text)
     if len(matches) >= 2:
         return float(matches[0]), float(matches[1])
-    return 0.05, 0.10  # Fallback defaults
+    return 0.01, 0.02  # Fallback default for micro stakes (0.01/0.02)
 
 
 def has_card(crop: np.ndarray) -> bool:
