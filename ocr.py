@@ -188,10 +188,19 @@ def read_pot(crop: np.ndarray) -> float:
 
 
 def read_button_amount(crop: np.ndarray) -> float:
-    """Extract numeric amount from a button like 'Call 0.60' or 'Raise to 1.10'."""
+    """
+    Extract numeric amount from action buttons.
+    Handles: 'Call 0.60', 'Raise to 1.10', 'Bet 0.02', 'Check' (returns 0.0)
+    """
     text = _ocr_text(crop)
     match = re.search(r'[\d]+\.[\d]+', text)
     return float(match.group()) if match else 0.0
+
+
+def is_check_available(crop: np.ndarray) -> bool:
+    """Returns True if the middle button says 'Check' (no bet to call)."""
+    text = _ocr_text(crop).lower()
+    return 'check' in text
 
 
 def read_stack(crop: np.ndarray) -> float:
